@@ -8,7 +8,7 @@ public class GunFire : MonoBehaviour
     [SerializeField] private GameObject rayPrefab;
     [SerializeField] private GameObject rayPole;
     GameObject newRay;
-
+    [SerializeField] GameObject connectWall;
     public Transform characterTransform;
 
 
@@ -18,13 +18,10 @@ public class GunFire : MonoBehaviour
     int poleNumber;
     float gunToObstacleDistance;
 
-
     public void Fire()
     {
-        // RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, rayDistance))
         {
-
             Quaternion rayPrefabForwardEuler = Quaternion.Euler(90, 0, (180 - transform.eulerAngles.y));
             float pipeScale = 0.4f;
             gunToObstacleDistance = Vector3.Distance(transform.position, hit.point) / 2f;
@@ -34,6 +31,13 @@ public class GunFire : MonoBehaviour
             newRay.transform.localScale = scale;
             newRay.transform.position = middlePosition;
             poleNumber = (int)(gunToObstacleDistance / poleDistance);
+         /*   if (hit.transform.tag == "Wall")
+            {
+                Instantiate(connectWall, hit.transform.position, Quaternion.Euler(0,characterTransform.eulerAngles.y+90, 0));
+                print("duvar");
+                print(hit.transform.position);
+            }
+         */
             PlacePole(hit);
         }
     }
@@ -47,8 +51,6 @@ public class GunFire : MonoBehaviour
             pole.transform.position += (vecDistance / (poleNumber + 1)) * i;
             pole.transform.SetParent(newRay.transform, true);
             pole.transform.localScale = new Vector3(0.9f, 1.5f, (gunToObstacleDistance / ((poleNumber + 1) * gunToObstacleDistance * 1.4f)));
-            //      pole.transform.localRotation = Quaternion.Euler(90f, 0f, 180f);
-            //  pole.transform.localPosition = new Vector3(pole.transform.localPosition.x, pole.transform.localPosition.y, 0.76f);
             pole.transform.SetLocalPositionAndRotation(new Vector3(pole.transform.localPosition.x, pole.transform.localPosition.y, 0.76f), Quaternion.Euler(90f, 0f, 180f));
         }
     }

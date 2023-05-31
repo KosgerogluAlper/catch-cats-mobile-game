@@ -6,7 +6,7 @@ public class CamToFollow : MonoBehaviour
 {
     [SerializeField] private GameObject player;
 
-    Vector3 offset = new(0f, 9.9f, -8f);
+    Vector3 offset = new(0f, 10f, -8f);
 
     private void LateUpdate()
     {

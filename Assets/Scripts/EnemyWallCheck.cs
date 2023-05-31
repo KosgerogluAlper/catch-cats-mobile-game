@@ -8,6 +8,7 @@ public class EnemyWallCheck : MonoBehaviour
     private bool istouchedWall;
     private bool isTouchedPlayer;
 
+
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Wall"))
@@ -18,6 +19,7 @@ public class EnemyWallCheck : MonoBehaviour
         {
             isTouchedPlayer = true;
         }
+
         if (isTouchedPlayer && istouchedWall)
         {
             isCanMove = false;
@@ -26,6 +28,7 @@ public class EnemyWallCheck : MonoBehaviour
         {
             isCanMove = true;
         }
+
     }
 
     private void OnTriggerExit(Collider other)

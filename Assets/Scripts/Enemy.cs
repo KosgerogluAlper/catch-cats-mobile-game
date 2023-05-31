@@ -14,14 +14,11 @@ public class Enemy : MonoBehaviour
     public float speed = 2f;
 
 
-     float distance = 4f;
-     float avoidanceDistance = 2f;
-     float minimumHeight = 0.5f;
+    float enemyMoveDistance = 4f;
+    float avoidanceDistance = 2f;
+    float minimumHeight = 0.5f;
     float distanceDirection;
     bool isWait = false;
-
-
-
 
 
     private void Start()
@@ -99,26 +96,34 @@ public class Enemy : MonoBehaviour
                 return true;
             }
         }
+
         if (Vector3.Distance(newTargetPos, player.transform.position) < avoidanceDistance)
         {
             return true;
         }
+
         return false;
+
     }
 
     public Vector3 PickRandomTarget()
     {
         if (isWait) return targetPosition;
-        int maxTries = 25;
+
+        int maxTries = 360;
         int currentTry = 0;
+
         do
         {
-            Vector2 randomDirection2D = Random.insideUnitCircle * distance;
+            Vector2 randomDirection2D = Random.insideUnitCircle * enemyMoveDistance;
             Vector3 randomDirection = new(randomDirection2D.x, 0f, randomDirection2D.y);
-            targetPosition = transform.position + randomDirection.normalized * distance;
+            targetPosition = transform.position + randomDirection.normalized * enemyMoveDistance;
             currentTry++;
         } while (IsObstacleInTheWay(targetPosition) && currentTry < maxTries);
+
         distanceDirection = Vector3.Distance(transform.position, targetPosition);
+        // do while güvenlik açýðý araþtýr
+
         StartCoroutine(Wait());
         Vector3 relativePos = targetPosition - transform.position;
         Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
@@ -131,7 +136,7 @@ public class Enemy : MonoBehaviour
     private IEnumerator Wait()
     {
         isWait = true;
-        yield return new WaitForSecondsRealtime(0.7f);
+        yield return new WaitForSecondsRealtime(0.4f);
         isWait = false;
     }
 }
