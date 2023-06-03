@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] GameObject player;
 
+    Animator animator;
     Vector3 targetPosition;
     public Vector3 TargetPosition { get { return TargetPosition; } set { targetPosition = value; } }
 
@@ -26,6 +27,8 @@ public class Enemy : MonoBehaviour
         enemyWallCheck = GetComponentInChildren<EnemyWallCheck>();
         player = GameObject.FindGameObjectWithTag("Player");
         targetPosition = PickRandomTarget();
+        animator = GetComponent<Animator>();
+        animator.SetBool("run",true);
     }
 
     private void Update()
